@@ -32,9 +32,6 @@ namespace TestProgressBar
                 new Task(() => {
                     Thread.Sleep(2000);
                     Dispatcher.Invoke(() => progressBarList.Add(ProgressBarType.CIRCULAR_PERCENTAGE_PROGRESS_BAR, "LL2 Mapping"));
-                    var progressBar1 = progressBarList.Add(ProgressBarType.CIRCULAR_PERCENTAGE_PROGRESS_BAR, "LL3 Pumping");
-
-
                     new Task(() => { Thread.Sleep(5000); Dispatcher.Invoke(() => progressBarList.Remove("LL1 Mapping"));
                     }).Start();}).Start();
             }).Start();

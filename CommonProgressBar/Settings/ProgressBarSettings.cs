@@ -74,6 +74,7 @@ namespace CommonProgressBar.Settings
                 OnPropertyChanged("ShowCurrentProgressValue");
             }
         }
+
         #endregion
     }
 }

@@ -11,4 +11,14 @@ namespace CommonProgressBar.GlobalTypes
         CIRCULAR_PROGRESS_BAR,
         CIRCULAR_PERCENTAGE_PROGRESS_BAR
     }
+
+    public struct currentjob
+    {
+        public string Name;
+        public double? Value;
+        public double? MaxValue;
+        public double? MinValue;
+        public string Unit;
+    }
+
 }

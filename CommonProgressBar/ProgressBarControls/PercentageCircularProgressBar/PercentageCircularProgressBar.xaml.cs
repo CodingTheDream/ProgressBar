@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CommonProgressBar.Settings;
 using CommonProgressBar.Converters;
+using CommonProgressBar.GlobalTypes;
 
 namespace CommonProgressBar.ProgressBarControls.PercentageCircularProgressBar
 {
@@ -23,60 +24,49 @@ namespace CommonProgressBar.ProgressBarControls.PercentageCircularProgressBar
     public partial class PercentageCircularProgressBar : 
         UserControl, IPercentageProgressBarProperties
     {
-        public ProgressBarArc _percentage { get; set; }
-        public TextBox PercentFont { get; set; }
-
-        public List<currentjob> currentjobs = new List<currentjob>();
+        private TextBox TextBox { get; set; }
+        private ProgressBarArc ProgressBarArc;
 
         public PercentageCircularProgressBar()
         {
 
             InitializeComponent();
             DataContext = new ProgressBarSettings();
-            _percentage = new ProgressBarArc();
-            PercentFont = new TextBox();
-            
-            _percentage.Value = PercentNumber;
-            _percentage.StrokeThickness = ProgressBarSize / 12;
-            _percentage.Width = ProgressBarSize;
-            _percentage.Height = ProgressBarSize;
 
-            PercentFont.HorizontalAlignment = HorizontalAlignment.Center;
-            PercentFont.VerticalAlignment = VerticalAlignment.Center;
-            PercentFont.Foreground = Brushes.DarkGray;
-            PercentFont.BorderBrush = Brushes.Transparent;
-            PercentFont.FontSize = ProgressBarSize / 12;
-            PercentFont.TextAlignment = System.Windows.TextAlignment.Center;
+            TextBox = (TextBox)this.GetType().GetField("text1", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.IgnoreCase).GetValue(this);
 
+            ProgressBarArc = (ProgressBarArc)this.GetType().GetField("ProgressBar1",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.IgnoreCase).GetValue(this);
 
-            //currentjob job = new currentjob();
-            //job.Name = "体重";
-            //job.Value = 150;
-            //job.Unit = "kg";
-            //currentjobs.Add(job);
+            TextBox.FontSize = ProgressBarSize / 12;
+            ProgressBarArc.Value = PercentNumber;
 
-            //currentjob job1 = new currentjob();
-            //job1.Name = "身高";
-            //job1.MinValue = 150;
-            //job1.MaxValue = 180;
-            //job1.Unit = "cm";
-            //currentjobs.Add(job1);
+            currentjob job = new currentjob();
+            job.Name = "体重";
+            job.Value = 150;
+            job.Unit = "kg";
+            currentjobs.Add(job);
+
+            currentjob job1 = new currentjob();
+            job1.Name = "身高";
+            job1.MinValue = 150;
+            job1.MaxValue = 180;
+            job1.Unit = "cm";
+            currentjobs.Add(job1);
 
 
 
 
             SetContent();
-
-            Layout.Children.Add(PercentFont);
-            Layout.Children.Add(_percentage);
+            
         }
         
-
-        private double _PercentNumber = 0.0;
+        
         public double PercentNumber
         {
             get {
-                return _PercentNumber = EndPointValue > StartPointValue ?
+                return EndPointValue > StartPointValue ?
                  100*CurrentProgressValue/(EndPointValue-StartPointValue) :
                  100*(1-CurrentProgressValue/(StartPointValue-EndPointValue));
             }
@@ -107,9 +97,8 @@ namespace CommonProgressBar.ProgressBarControls.PercentageCircularProgressBar
                 if (CurrentProgressValue != value)
                 {
                     ((ProgressBarSettings)DataContext).CurrentProgressValue = value;
+              //      ((ProgressBarSettings)DataContext).OnPropertyChanged("PercentNumber");
 
-                    _percentage.Value = PercentNumber;
-                    SetContent();//UIupdate
                 }
             }
         }
@@ -148,10 +137,7 @@ namespace CommonProgressBar.ProgressBarControls.PercentageCircularProgressBar
             {
                 ((ProgressBarSettings)DataContext).ProgressBarSize = value;
 
-                _percentage.Width = ProgressBarSize;
-                _percentage.Height = ProgressBarSize;
-                _percentage.StrokeThickness = ProgressBarSize / 12;
-                PercentFont.FontSize = ProgressBarSize/12;//UI update
+                TextBox.FontSize = ProgressBarSize/12;//UI update
             }
         }
 
@@ -186,10 +172,7 @@ namespace CommonProgressBar.ProgressBarControls.PercentageCircularProgressBar
             myGreenBrush.Freeze();
 
             this.Stroke = myGreenBrush;
-
-            this.Fill = Brushes.Transparent;
-            this.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.VerticalAlignment = VerticalAlignment.Stretch;
+            
 
         }
 

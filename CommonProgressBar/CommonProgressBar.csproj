@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\DoubleToPctConverter.cs" />
+    <Compile Include="Converters\FontSizeConverter.cs" />
     <Compile Include="Converters\UIElementSizeConverter.cs" />
     <Compile Include="GlobalTypes\GlobalEnums.cs" />
     <Compile Include="ProgressBarControls\IPercentageProgressBarProperties.cs" />

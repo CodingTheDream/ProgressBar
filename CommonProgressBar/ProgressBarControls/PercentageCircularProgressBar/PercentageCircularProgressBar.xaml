@@ -9,11 +9,10 @@
              Height="Auto" Width="Auto" Background="Transparent">
 
     <UserControl.Resources>
-        <converters:UIElementSizeConverter x:Key="CanvasToControlSizeConverter" Scale="1"/>
+        <converters:UIElementSizeConverter x:Key="CanvasToControlSizeConverter" Scale="12"/>
         <converters:DoubleToPctConverter x:Key="dblToPct"/>
-       
-                
-                           
+  
+
     </UserControl.Resources>
 
     <Grid x:Name="Layout" Background="Transparent" VerticalAlignment="Center"
@@ -26,11 +25,13 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Canvas Grid.Row="0" Grid.Column="0" Name="PercentageProgressBarCanvas" RenderTransformOrigin="0.5,0.5"
-                HorizontalAlignment="Center"
-             VerticalAlignment="Center" Width="{Binding ProgressBarSize}"
-             Height="{Binding ProgressBarSize}" >
-        </Canvas>
+        <local:ProgressBarArc  x:Name="ProgressBar1"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                   Width="{Binding ProgressBarSize}" Height="{Binding ProgressBarSize}" StrokeThickness="10">
+
+        </local:ProgressBarArc>
+        <TextBox HorizontalAlignment="Center" Name="text1" VerticalAlignment="Center" Foreground="DarkGray" BorderBrush="Transparent" TextAlignment="Center"
+                 
+                 ></TextBox>
 
         <Label Name="TopicLbl" Grid.Row="1" Grid.Column="0" Content="{Binding Topic}" FontSize="{Binding TopicFontSize}" HorizontalAlignment="Center"/>
         <Rectangle Grid.Column="1" Grid.RowSpan="2" Width="10"/>

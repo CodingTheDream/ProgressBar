@@ -3,32 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommonProgressBar.GlobalTypes;
 
 
 namespace CommonProgressBar.ProgressBarControls.PercentageCircularProgressBar
 {
 
-    public struct currentjob
-    {
-        public string Name;
-        public double? Value;
-        public double? MaxValue;
-        public double? MinValue;
-        public string Unit;
-    }
-
     public partial class PercentageCircularProgressBar : IProgressBarOperation
         {
-            double temptest = 0;
+
+        private List<currentjob> currentjobs = new List<currentjob>();
+
+        double temptest = 0;
             public void Update()
             {
             
                 CurrentProgressValue++;//Only for test
                                        //CurrentProgressValue--;
-           UpdateJob("体重", temptest++, "kg");
+                UpdateJob("体重", temptest++, "kg");
+                ProgressBarArc.Value = PercentNumber;
+                SetContent();//UIupdate
+             
 
-
-            }
+        }
 
             public void Update(double progress)
             {
@@ -39,7 +36,7 @@ namespace CommonProgressBar.ProgressBarControls.PercentageCircularProgressBar
         {
             if (ShowCurrentProgressValue == false)
             {
-                PercentFont.Text = string.Format("{0}%", PercentNumber);
+                TextBox.Text = string.Format("{0}%", PercentNumber);
             }
             else if (ShowCurrentProgressValue == true)
             {
@@ -72,33 +69,14 @@ namespace CommonProgressBar.ProgressBarControls.PercentageCircularProgressBar
                     }
                 }
 
-                PercentFont.Text = temp;
+                TextBox.Text = temp;
             }
 
         }
-        public void AddJob(string name, double value, string unit)
-        {
-            currentjob job = new currentjob();
-
-            job.Name = name;
-            job.Value = value;
-            job.Unit = unit;
-            currentjobs.Add(job);
-        }
-
-        public void AddJob(string name, double min, double max, string unit)
-        {
-            currentjob job = new currentjob();
-
-            job.Name = name;
-            job.MinValue = min;
-            job.MaxValue = max;
-            job.Unit = unit;
-            currentjobs.Add(job);
-        }
-
+        
         public void UpdateJob(string name, double value, string unit)
         {
+            bool IsJobExist = false;
             currentjob job = new currentjob();
             job.Name = name;
             job.Value = value;
@@ -109,14 +87,17 @@ namespace CommonProgressBar.ProgressBarControls.PercentageCircularProgressBar
                 if (currentjobs[i].Name.Equals(name))
                 {
                     currentjobs[i] = job;
+                    IsJobExist = true;
+                    break;
                 }
             }
+
+            if(!IsJobExist) currentjobs.Add(job);
         }
-
-
 
         public void UpdateJob(string name, double min, double max, string unit)
         {
+            bool IsJobExist = false;
             currentjob job = new currentjob();
             job.Name = name;
             job.MinValue = min;
@@ -128,9 +109,14 @@ namespace CommonProgressBar.ProgressBarControls.PercentageCircularProgressBar
                 if (currentjobs[i].Name.Equals(name))
                 {
                     currentjobs[i] = job;
+                    IsJobExist = true;
+                    break;
                 }
             }
+
+            if (!IsJobExist) currentjobs.Add(job);
         }
+
     }
     
 }
